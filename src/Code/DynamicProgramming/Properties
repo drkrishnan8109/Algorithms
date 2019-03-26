@@ -1,0 +1,46 @@
+Most recursive problems can be solved by DP as well if these 2 properties are there:
+
+
+Dp problems have two requirements:
+
+1. Overlapping subproblems -> Solns of sub problems are needed again and again.
+   Hence the computed solns are stored in a table so that it need not be recomputed.
+
+2. Optimal substructure -> Optimal solution can be obtained by combining opt solns of sub problems
+
+Recursive tree can be used to find whether there exists overlapping sub problems.
+
+If there are over lapping sub problems, there are two ways to store those results
+to avoid recomputation:
+1. Memoization (Top-down)
+2. Tabulation (Bottom-Up) -> It is clear why it is bottom up
+
+In memoization, we use a look up table. If value is not there, we compute and store.
+In tabulation, we are building solutions literally for sub problems
+and building the table bottom up. Eg for fibonacci, we first find fib(0) and fib(1) etc..
+
+
+Both calculate sub-problems, but memoization finds solutions of subproblems on demand
+and doesnt necessarily calculate all entries. However in tabulated version, we
+calculate all entries one by one.
+
+How to chose between Memoization & Tabulation?
+ Memoization uses RECURSION and hence stack space important. But doesnt
+ have to calculate all sub problems.
+ Tabulation uses ITERATION, hence easier. Sapce used for storing all sub-results.
+
+ If all sub problems have to be calculated anyway, we could better do it without
+ all the recursive function call overhead.
+
+ An advantage of dp is also to forget previous results and hence save memory.
+ For example, if we need only the row k to find result of row k+1, we dont have
+ save all the results until row k-1 anymore.
+
+ If (all sub problems to be solved):
+ 	Tabulation
+ else:
+ 	Memoization
+ 	
+
+
+
