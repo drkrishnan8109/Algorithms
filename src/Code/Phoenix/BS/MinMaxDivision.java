@@ -34,36 +34,43 @@ public class MinMaxDivision {
         int lower_bound = max(A);
         int upper_bound = sum(A);
 
-        int mid;
+        //Special cases
+        if(allowed_block_count==0)
+            return lower_bound;
+        if(allowed_block_count>=A.length)
+            return lower_bound;
+
+        int mid, result=0, numblocks=1;
+
         while (lower_bound<=upper_bound) {
             mid = (lower_bound+upper_bound)/2;
 
-            if(blockIsValid(A,mid,allowed_block_count))
-                upper_bound = mid -1;
+            numblocks = numBlocksNeeded(A,mid,allowed_block_count);
+            if(numblocks <= allowed_block_count) {// We can increase #blocks and reduce large sum
+                upper_bound = mid - 1;
+                result = mid;
+            }
             else
-                lower_bound = mid +1;
+                lower_bound = mid + 1;
         }
-        return lower_bound; // looking for min value of sub block sum
+        return result; // looking for min value of sub block sum
     }
 
-    public boolean blockIsValid(int[] A, int sum, int allowed_block_count) {
-        int block_count =0;
-        int block_sum=0;
+    public int numBlocksNeeded(int[] A, int sum, int allowed_block_count) {
+        int block_count = 1; // Initial conditions are important, they are minimum defaults needed
+        int block_sum = A[0];
 
-        for(int i=0;i<A.length;i++) {
+        for(int i=1;i<A.length;i++) {
 
-            if(block_sum + A[i] <= sum) {
-                block_sum +=A[i];
+            if(block_sum + A[i] > sum) {// It is important to check ">" first, because else block count is not incremented for last bloack
+                block_count +=1;
+                block_sum = A[i];
             }
             else{
-                block_sum = A[i];
-                block_count++;
+                block_sum += A[i];
             }
-
-            if(block_count>=allowed_block_count)
-                return false;
         }
-        return true;
+       return block_count;
     }
 
     public int max(int[] A) {

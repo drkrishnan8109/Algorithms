@@ -44,16 +44,13 @@ public class   MinBoardToFillHoles {
     //O(n)
     public int numBoards(int[] A, int size ){
 
-        int boards=0, lastIndex=-1, i=0;
+        int boards=0, lastIndex=-1;
 
-        while(i<A.length) {
+       for(int i=0;i<A.length;i++) {
             if(A[i]==1)  {
                 boards++;
-                lastIndex = i + size - 1;
-                i=lastIndex+1;
+                i = i + size - 1;
             }
-            else
-                i++;
         }
         return boards;
     }
