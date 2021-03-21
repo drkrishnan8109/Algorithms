@@ -1,9 +1,8 @@
 package Code.Practice;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import org.junit.Test;
+
+import java.util.*;
 
 /**
  * Created by developer on 1/17/18.
@@ -11,62 +10,60 @@ import java.util.List;
  * Scheduler
  */
 public class MergeIntervals {
+//Very important handling of Collection of primitive arrays
+    public static int[][] merge(int[][] intervals) {
+        if (intervals.length <= 1)
+            return intervals;
 
+        // Sort by ascending starting point
+        Arrays.sort(intervals, (i1, i2) -> Integer.compare(i1[0], i2[0]));
 
-    public class Interval {
-        int start;
-        int end;
-
-        Interval() {
-            start = 0;
-            end = 0;
+        List<int[]> result = new ArrayList<>();
+        //[[1,3],[2 ,3],[8,10] ,[15,18]]
+        int[] newInterval = intervals[0];
+        result.add(newInterval); //1,3
+        for (int[] interval : intervals) {
+            //1,3 1,3
+            if (interval[0] <= newInterval[1]) // Overlapping intervals, move the end if needed
+                //1,3
+                newInterval[1] = Math.max(newInterval[1], interval[1]);
+            else {                             // Disjoint intervals, add the new interval to the list
+                newInterval = interval;
+                result.add(newInterval);
+            }
         }
 
-        Interval(int s, int e) {
-            start = s;
-            end = e;
-        }
+        return result.toArray(new int[result.size()][2]);
+    }
+
+    public static void main(String args[]) {
+        int[][] intervals = new int[][] {new int[]{1,3},new int[]{1,3},new int[]{2,7}};
+        merge(intervals);
     }
 
     public List<Interval> merge(List<Interval> intervals) {
-        if (intervals.isEmpty() || intervals == null || intervals.size() == 1) return intervals;
-        int n = intervals.size();
+        if (intervals.size() <= 1)
+            return intervals;
 
-        Comparator<Interval> comp = new Comparator<Interval>() {
-            @Override
-            public int compare(Interval a, Interval b) {
-                if (a.start < b.start)
-                    return -1;
-                else if (a.start > b.start)
-                    return 1;
-                else {
-                    if (a.end < b.end)
-                        return -1;
-                    else if (a.end > b.end)
-                        return 1;
-                    else return 0;
-                }
-            }
-        };
+        // Sort by ascending starting point using an anonymous Comparator
+        intervals.sort((i1, i2) -> Integer.compare(i1.start, i2.start));
 
-        //First sort!
-        Collections.sort(intervals, comp);
-        //[1,3],[2,6],[8,10],[15,18]
-        Interval begin = intervals.get(0);
-        Interval curr;
-        ArrayList<Interval> res = new ArrayList<Interval>();
+        List<Interval> result = new LinkedList<Interval>();
+        int start = intervals.get(0).start;
+        int end = intervals.get(0).end;
 
-        for (int i = 1; i < n; i++) {
-            curr = intervals.get(i);
-            if (begin.end < curr.start) {
-                res.add(begin);
-                begin = curr;
-            } else {
-                begin.start = Math.min(begin.start, curr.start);
-                begin.end = Math.max(begin.end, curr.end);
+        for (Interval interval : intervals) {
+            if (interval.start <= end) // Overlapping intervals, move the end if needed
+                end = Math.max(end, interval.end);
+            else {                     // Disjoint intervals, add the previous one and reset bounds
+                result.add(new Interval(start, end));
+                start = interval.start;
+                end = interval.end;
             }
         }
-        res.add(begin);
-        return res;
+
+        // Add the last interval
+        result.add(new Interval(start, end));
+        return result;
     }
 }

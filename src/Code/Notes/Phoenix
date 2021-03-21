@@ -1,0 +1,4 @@
+binary search : these two are the only correct ways:
+mid = low + (high-low)/2   OR  mid = low + high >>>1
+Reson:  (low+high)/2 fails if the sum of low and high is greater than the maximum positive int value (2  raise to 32 - 1).
+

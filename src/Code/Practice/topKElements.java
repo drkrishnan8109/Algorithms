@@ -1,57 +1,35 @@
-/*
-package Code.Practice;
-
-import java.util.*;
-
-*/
-/**
- * Created by developer on 1/17/18.
- *//*
-
-public class topKElements implements Comparator<Pair>{
-        public List<Integer> topKFrequent(int[] nums, int k) {
-            HashMap<Integer,Integer> hmap = new HashMap<Integer,Integer>();
-
-            int n= nums.length-1;
-            int elmt=0;
-            for(int i=0;i<n;i++) {
-                elmt= nums[i];
-                if(!hmap.containsKey(elmt)) {
-                    hmap.put(elmt,1);
-                }
-                else {
-                    hmap.put(elmt,hmap.get(elmt).intValue()+1);
-                }
+class Solution {
+    public List<Integer> topKFrequent(int[] nums, int k) {
+        HashMap<Integer,Integer> map = new HashMap<>();
+        int temp;
+        for(int i=0;i<nums.length;i++) {
+            if(!map.containsKey(nums[i]))
+                map.put(nums[i],1);
+            else {
+                temp = map.get(nums[i]);
+                map.put(nums[i],temp+1);
             }
-
-            PriorityQueue<Pair> minHeap = new PriorityQueue<Pair>(new Comparator<Pair>(){
-                @Override
-                public int compare(Pair a, Pair b){
-                    return a.count-b.count;
-                }
-            });
-
-            for(Map.Entry<Integer,Integer> e : hmap.entrySet()) {
-                Pair p=new Pair(e.getKey(),e.getValue());
-                minHeap.offer(p);
-                if(minHeap.size()>k){
-                    minHeap.poll();
-                }
-            }
-
-            ArrayList<Integer> arr = new ArrayList<Integer>();
-            while(minHeap.size()>0){
-                arr.add(minHeap.poll().key);
-            }
-            return arr;
         }
+
+        PriorityQueue<Map.Entry<Integer,Integer>> pq = new PriorityQueue<>
+                (k,new Comparator<Map.Entry<Integer,Integer>>() {
+                    @Override
+                    public int compare(Map.Entry<Integer,Integer> e1, Map.Entry<Integer,Integer> e2) {
+                        return e1.getValue()-e2.getValue();
+                    }
+                });
+
+        for(Map.Entry<Integer,Integer> entry: map.entrySet()) {
+            pq.offer(entry);
+            if(pq.size()>k)
+                pq.poll();
+        }
+
+        List<Integer> res = new ArrayList<>();
+        while(!pq.isEmpty()) {
+            res.add(pq.poll().getKey());
+        }
+        Collections.reverse(res);
+        return res;
     }
-    class Pair{
-        int key;
-        int count;
-        Pair(int k, int c){
-            this.key=k; this.count=c;
-        }
-
 }
-*/
