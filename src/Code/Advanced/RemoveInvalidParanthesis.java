@@ -7,7 +7,10 @@ import java.util.*;
  *
  *  /*
  Consider edges cases
- "", "abc", ")(", "()(", "))"
+ "", "abc", ")(",  "())", "()(", "))"
+
+ How to remove when left is more!
+
 
  Using DFS can work only if one character is mismatched. It cant handle cases like:
  ")(ab" - here it will not remove two invalid characters.
@@ -86,10 +89,10 @@ public class RemoveInvalidParanthesis {
         return (cnt == 0);
     }
         public static void main(String args[]) {
-            String s = "))()";
+            String s = "))()", s1 ="((()";
             RemoveInvalidParanthesis rObj = new RemoveInvalidParanthesis();
             List<String> arr = new ArrayList<>();
-            arr = rObj.removeInvalidParentheses(s);
+            arr = rObj.removeInvalidParentheses(s1);
 
             for(String k:arr) {
                 System.out.println(k);

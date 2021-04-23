@@ -1,29 +1,35 @@
 package Code.Advanced;
 
+import Code.Advanced.Graph.Graph;
+import Code.Advanced.Graph.GraphBasedOnArray;
+import Code.Advanced.Graph.GraphNode;
+
+import javax.xml.stream.events.Characters;
 import java.util.*;
 
 /**
  * Created by drkrishnan on 05.05.2018.
- *
+ * <p>
  * Given a sorted dictionary (array of words) of an alien language, find order of characters in the language.
-
- Examples:
-
- Input:  words[] = {"baa", "abcd", "abca", "cab", "cad"}
- Output: Order of characters is 'b', 'd', 'a', 'c'
- Note that words are sorted and in the given language "baa"
- comes before "abcd", therefore 'b' is before 'a' in output.
- Similarly we can find other orders.
-
- Input:  words[] = {"caa", "aaa", "aab"}
- Output: Order of characters is 'c', 'a', 'b'
-
-
- Any kind of relative ordeing -> Use topological sort
- Here compare first two words, go through each letters and find first mismatch.
- It is the order within of characters. Similarly continue for each adjacent words
- and build a graph based on this order
- Now traverse the graph & do topological sorting
+ * <p>
+ * Examples:
+ * <p>
+ * Input:  words[] = {"baa", "abcd", "abca", "cab", "cad"}
+ * Output: Order of characters is 'b', 'd', 'a', 'c'
+ * Note that words are sorted and in the given language "baa"
+ * comes before "abcd", therefore 'b' is before 'a' in output.
+ * Similarly we can find other orders.
+ * <p>
+ * Input:  words[] = {"caa", "aaa", "aab"}
+ * Output: Order of characters is 'c', 'a', 'b'
+ * <p>
+ * <p>
+ * Any kind of relative ordeing -> Use topological sort
+ * Here compare first two words, go through each letters and find first mismatch.
+ * It is the order within of characters. Similarly continue for each adjacent words
+ * and build a graph based on this order
+ * Now traverse the graph & do topological sorting
+ * b->a, d-> a, a->c, b->d
  */
 
 
@@ -31,21 +37,67 @@ import java.util.*;
 
 public class AlienLanguageOrderOfChars {
 
-    public class GraphAlien {
-        int size;
-        LinkedList<Integer>[] adj;
-        public GraphAlien(int size) {
-            this.size=size;
-            for(int i=0;i<size;i++) {
-                adj[i] = new LinkedList<>();
+    public static void main(String args[]) {
+        String[] words = {"baa", "abcd", "abca", "cab", "cad"};
+        AlienLanguageOrderOfChars obj = new AlienLanguageOrderOfChars();
+        obj.findOrderLanguage(words);
+    }
+
+    public List<Characters> findOrderLanguage(String[] words) {
+        List<Characters> orderList = new ArrayList<>();
+
+        if (words.length <= 1)
+            return orderList;
+        int j = 0, l = 0;
+
+        GraphBasedOnArray g = new GraphBasedOnArray(26, false);
+        for (int i = 1; i < words.length; i++) {
+            j = i - 1;
+            int index = 0;
+            for (index = 0; index < Math.min(words[i].length(), words[j].length()); index++) {
+                if (words[i].charAt(index) == words[j].charAt(index))
+                    continue;
+                //add edge words[i].charAt(index) to words[j].charAt(index)
+                g.addEdge( words[i].charAt(index) - 'a',words[j].charAt(index) - 'a');
+                break;
             }
         }
+        topologicalSort(g);
+        //Add stack contents to list .....
+        return orderList;
+    }
 
-        public void addEdge(int u, int v) {
-            adj[u].add(v);
+    public void topologicalSort(GraphBasedOnArray g) {
+       boolean[] visited = new boolean[g.getSize()];
+        LinkedList<Character> stack = new LinkedList<Character>();
+        //here iterate over all vertices -> based on size of graph -- that is a problem...
+        // Problem: first we get all correct chars, and further chars will also be added by default
+        for (int i = 0; i < g.getSize(); i++) {
+            if (!visited[i]) {
+                dfs(g, visited, stack, i);
+            }
+        }
+        // Print contents of stack
+        while (!stack.isEmpty())
+        {
+            System.out.print((char)('a' + stack.pop()) + " ");
         }
     }
 
+    public void dfs(GraphBasedOnArray g, boolean[] visited, LinkedList<Character> stack, int i) {
+        if(visited[i])
+            return;
+        visited[i]=true;
+        LinkedList<Integer> neighbours= g.adjArray[i];
+        //Here iterate only over neighbours, not all vertices or 26
+        for(Integer k: neighbours) {
+            dfs(g,visited,stack,k);
+        }
+        stack.push((char)(i+'a'));
+    }
+
+
+}
   /*  public List<Character> findOrder(String[] words) {
         if(words==null)
             return new LinkedList<>();
@@ -84,7 +136,7 @@ public class AlienLanguageOrderOfChars {
         return res
     }*/
 
-    public boolean topologicalSort(int i, int numChars, GraphAlien graph,
+    /*public boolean topologicalSort(int i, int numChars, GraphAlien graph,
                                            boolean[] visited, boolean[] isCycle,
                                            Stack<Integer> stack) {
             if (!visited[i]) {
@@ -114,4 +166,5 @@ public class AlienLanguageOrderOfChars {
         }
         return max;
     }
-}
+
+  }*/

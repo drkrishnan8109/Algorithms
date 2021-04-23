@@ -38,6 +38,9 @@ public class TopologicalSort {
     2 0
     3 1,2
     */
+    /**
+     * IMP :  Refer Graph Data structure: https://stackabuse.com/graphs-in-java-representing-graphs-in-code/
+     * */
 
         class Graph {
             public LinkedList<Integer>[] adj;

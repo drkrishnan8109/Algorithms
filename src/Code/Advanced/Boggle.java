@@ -89,7 +89,8 @@ public class Boggle {
 
             int k=0;
             while(k<rowNr.length) {
-                if(isSafe(board,i+rowNr[k],j+colNr[k]) && !visited[i+rowNr[k]][j+colNr[k]]
+                if(isSafe(board,i+rowNr[k],j+colNr[k])
+                        && !visited[i+rowNr[k]][j+colNr[k]]
                         && curr.children.containsKey(board[i+rowNr[k]][j+colNr[k]])) {
 
                     visited[i + rowNr[k]][j + colNr[k]] = true;

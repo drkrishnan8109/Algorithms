@@ -2,10 +2,14 @@ package Code.Trees;
 
 import java.lang.*;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Stack;
 
 import org.junit.Test;
 import sun.security.util.Cache;
+
+import javax.swing.tree.TreeNode;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -207,6 +211,118 @@ public class BST {
         if(n.right!=null) preorder(n.right,list);
         return list;
     }
+
+    // Iterative function to perform inorder traversal on the tree
+    public static void inorderIterative(Node root) {
+        // create an empty stack
+        Stack<Node> stack = new Stack();
+
+        // start from the root node (set current node to the root node)
+        Node curr = root;
+
+        // if the current node is null and the stack is also empty, we are done
+        while (!stack.empty() || curr != null)
+        {
+            // if the current node exists, push it into the stack (defer it)
+            // and move to its left child
+            if (curr != null)
+            {
+                stack.push(curr);
+                curr = curr.left;
+            }
+            else {
+                // otherwise, if the current node is null, pop an element from
+                // the stack, print it, and finally set the current node to its
+                // right child
+                curr = stack.pop();
+                System.out.print(curr.data + " ");
+
+                curr = curr.right;
+            }
+        }}
+
+    void preorderIterative(Node root) {
+        LinkedList<Node> stack = new LinkedList<>();
+        Node curr=root;
+        while(curr!=null || !stack.isEmpty()) {
+            if(curr!=null) {
+                System.out.println(curr.data);
+                if(curr.right!=null)
+                    stack.add(curr.right);
+                curr=curr.left;
+            }
+            else {
+                curr=stack.removeLast();
+            }
+        }
+    }
+
+
+    public List<Integer> postorderTraversal(Node root) {
+        List<Integer> out = new ArrayList<Integer>();
+        if(root==null)
+            return out;
+        Node pre=null;
+        Stack<Node> s = new Stack();
+        while(root!=null || !s.empty()){
+            if(root!=null){
+                //same like inorder here
+                s.push(root);
+                root = root.left;
+            }
+            else{ //By heart this else block!!
+                //Splitted conditions compared to inorder
+                // - 2 steps in inorder, we split up based on rgt!=null or rgt seen before
+                //Peek first and use conditions
+                root = s.peek();
+                if(root.right!=null || root.right!=pre){
+                    root = root.right;
+                }
+                else
+                     out.add(root.data);
+                     s.pop();
+                     //two reset conditions also
+                     pre=root;
+                     root = null;
+            }
+        }
+        return out;
+    }
+
+
+
+    /*public List<Integer> inorderTraversal(Node root) {
+
+        List<Integer> inorderList = new ArrayList<Integer>();
+
+        if(root==null) return inorderList;
+        inorderTraversal(root,inorderList);
+        return inorderList;
+    }
+    //[1,null,2,3] //[1,3,2] 1 3
+    public void inorderTraversal(Node root, List<Integer> inorderList) {
+
+        Stack<Node> stack = new Stack<Node>();
+        stack.push(root);
+        Node curr;
+        //stack = 2
+        while(!stack.isEmpty()){
+            curr= stack.pop();
+
+            if(curr.left!=null){
+                stack.push(curr);
+                stack.push(curr.left);
+                //important not to infintely loop => i have to set curr.left=null;
+                curr.left=null;
+            }
+            else{
+                inorderList.add(curr.data);
+                if(curr.right!=null)
+                    stack.push(curr.right);
+            }
+        }
+
+    }*/
 
     /***   unbalanced tree :
      *           o

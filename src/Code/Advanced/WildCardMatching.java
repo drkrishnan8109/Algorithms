@@ -34,7 +34,7 @@ public class WildCardMatching {
         if(sIndx<s.length() && p.charAt(pIndx)==s.charAt(sIndx) || p.charAt(pIndx)=='?')
             return matchRec(s,p,sIndx+1,pIndx+1);
         else if(sIndx<s.length() && p.charAt(pIndx)=='*') {
-            while(p.charAt(pIndx)=='*')
+            while(pIndx<p.length() && p.charAt(pIndx)=='*')
                 pIndx++; //Traverse to next non-star character
             while(sIndx<s.length()) {
                 if(matchRec(s,p,sIndx,pIndx))
@@ -47,7 +47,7 @@ public class WildCardMatching {
 
     public static void main(String args[]) {
         WildCardMatching wM = new WildCardMatching();
-        if(wM.match("xaaabc","***a?c"))
+        if(wM.match("xaaabc","*"))
             System.out.println("true");
         else
             System.out.println("false");

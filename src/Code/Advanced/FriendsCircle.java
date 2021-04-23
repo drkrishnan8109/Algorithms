@@ -38,7 +38,10 @@ public class FriendsCircle {
     public int findCircleNumBFS(int[][] M) {
         int count = 0;
         for (int i=0; i<M.length; i++)
-            if (M[i][i] == 1) { count++; BFS(i, M); }
+            if (M[i][i] == 1) {
+                count++;
+                BFS(i, M);
+            }
         return count;
     }
 
