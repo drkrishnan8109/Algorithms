@@ -1,4 +1,7 @@
+<<<<<<< HEAD
 /*
+=======
+>>>>>>> e4891a51b054ef9a1fb29719151d5299fd4f37f6
 class Solution {
     public List<Integer> topKFrequent(int[] nums, int k) {
         HashMap<Integer,Integer> map = new HashMap<>();
@@ -33,4 +36,8 @@ class Solution {
         Collections.reverse(res);
         return res;
     }
+<<<<<<< HEAD
 }*/
+=======
+}
+>>>>>>> e4891a51b054ef9a1fb29719151d5299fd4f37f6
