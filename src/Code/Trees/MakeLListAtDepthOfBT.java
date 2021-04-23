@@ -18,12 +18,12 @@ public class MakeLListAtDepthOfBT {
        public ArrayList<LinkedList<Node>> createLL(Node root) {
             if(root == null) return null;
             ArrayList<LinkedList<Node>> arrList = new ArrayList<LinkedList<Node>>();
-           createLLAtDepth(root, 0, arrList);
+            createLLAtDepth(root, 0, arrList);
             return arrList;
         }
 
-    public ArrayList<LinkedList<Node>> createLLAtDepth(Node root, int level, ArrayList<LinkedList<Node>> arrLst) {
-        if(root == null) return null;
+    public void createLLAtDepth(Node root, int level, ArrayList<LinkedList<Node>> arrLst) {
+        if(root == null) return;
 
         //The level is not visited before
         if( arrLst.size() == level) {
@@ -38,8 +38,6 @@ public class MakeLListAtDepthOfBT {
             createLLAtDepth(root.left,level +1, arrLst);
         if(root.right !=null)
             createLLAtDepth(root.right,level+1, arrLst);
-
-        return arrLst;
     }
 
     @Test
