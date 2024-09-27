@@ -28,5 +28,16 @@ public static void main(String args[]) {
 	}
 
 
+	//Async processing
+	CompleatableFutures<AsyncResultSet> future =
+		session.executeAsync("SELECT * from myTable imit 10");
+	future.whenComplete((resultSet, throwable) -> {
+		if(throwable == null) {
+			//Process valid data
+		}
+		else {
+			//Handle error
+		}
+	});
 
 }

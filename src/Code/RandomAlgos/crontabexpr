@@ -1,0 +1,12 @@
+# At minute 5 of every hour
+25 * * * *
+3# At 5:00
+40 5 * * *
+5# At minute 15, 30, 45, and 0 past hour 5
+615,30,45,0 5 * * *
+7# At 05:00 on day-of-month 1
+80 5 1 * *
+9# At 05:00 on day-of-month 1 in April
+100 5 1 4 *
+11# At 05:00 on Monday, Wednesday, Friday, and Sunday in April
+120 5 * 4 1,3,5,77
