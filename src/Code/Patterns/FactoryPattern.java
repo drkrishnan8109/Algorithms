@@ -1,5 +1,6 @@
 package Code.Patterns;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class FactoryPattern {
@@ -27,6 +28,9 @@ public class FactoryPattern {
     }
 
     public class PaymentFactory {
+
+        /* When the number of payment grows, using switch case violates Open/Closed principle of SOLID
+        So use ConcurrentHashMap & Reflection for scalability & extensibility
         public Payment createPayment(String type) {
             switch (type) {
                 case "credit":
@@ -38,6 +42,24 @@ public class FactoryPattern {
                 default:
                     throw new IllegalArgumentException("Unknown payment type");
             }
+        }
+        */
+
+        protected ConcurrentHashMap<String, Class<? extends Payment>> paymentMap;
+        private PaymentFactory() {
+            paymentMap = new ConcurrentHashMap();
+            paymentMap.put("credit", CreditCardPayment.class);
+            paymentMap.put("paypal", PayPalPayment.class);
+            paymentMap.put("bitcoin", BitCoinPayment.class);
+        }
+
+        public Payment createPayment(String type) throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+            Class<? extends Payment> paymentClass = paymentMap.get(type);
+            if(paymentClass == null) {
+                System.err.println("Unknown Payment type");
+                throw new IllegalArgumentException("Unknown Payment type");
+            }
+            return paymentClass.getDeclaredConstructor().newInstance();
         }
     }
 }
