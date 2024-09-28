@@ -3,11 +3,25 @@ package Code.Patterns;
 import java.util.ArrayList;
 import java.util.List;
 
-public class NotificationObserver {
+public class NotificationObserverPattern {
 
 
-    public interface NotificationObserverInterface {
+    private interface NotificationObserver{
         void update(String message);
+    }
+
+    class SMSNotificationObserver implements NotificationObserver {
+        @Override
+        public void update(String message) {
+            //Send SMS
+        }
+    }
+
+    class EMailNotificationObserver implements NotificationObserver {
+        @Override
+        public void update(String message) {
+            //Send Email
+        }
     }
 
     public class NotificationService {
