@@ -1,0 +1,31 @@
+package Code.Concurrency;
+
+public class SemaphoreExample {
+    
+    public static void main() {
+        Semaphore semaphore = new Semaphore(2);
+
+        for(int i =0;i<5;i++) {
+            new Thread(new Worker(i)).start();
+        }
+    }
+
+class Worker extends Runnable {
+    private final int id;
+    private Worker(int id) {
+        this.id = id;
+    }
+    @Override
+    public void run(){
+        System.out.println("Thread " + id + " is waiting to acquire semaphore ...");
+        
+        semaphore.acquire();
+       
+        System.out.println("Thread " + id + " has acquired semaphore");
+        Thread.sleep(1000);
+        
+        semaphore.release();
+        System.out.println("Thread " + id + " has released semaphore");
+    }
+}
+}
