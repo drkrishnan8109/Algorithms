@@ -1,10 +1,6 @@
 package Code.Practice;
 
-<<<<<<< HEAD
-=======
 import org.junit.Test;
-
->>>>>>> e4891a51b054ef9a1fb29719151d5299fd4f37f6
 import java.util.*;
 
 /**
@@ -14,7 +10,6 @@ import java.util.*;
  */
 public class MergeIntervals {
 //Very important handling of Collection of primitive arrays
-<<<<<<< HEAD
 public int[][] merge(int[][] intervals) {
     if (intervals.length <= 1)
         return intervals;
@@ -95,9 +90,6 @@ public int[][] merge(int[][] intervals) {
         int[][] intervals = new int[][] {new int[]{1,3},new int[]{1,3},new int[]{2,7}};
         merge(intervals);
     }
-<<<<<<< HEAD
-=======
-
     public List<Interval> merge(List<Interval> intervals) {
         if (intervals.size() <= 1)
             return intervals;
@@ -123,5 +115,4 @@ public int[][] merge(int[][] intervals) {
         result.add(new Interval(start, end));
         return result;
     }
->>>>>>> e4891a51b054ef9a1fb29719151d5299fd4f37f6
 }
