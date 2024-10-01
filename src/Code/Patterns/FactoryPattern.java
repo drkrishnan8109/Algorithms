@@ -3,6 +3,10 @@ package Code.Patterns;
 import java.lang.reflect.InvocationTargetException;
 import java.util.concurrent.ConcurrentHashMap;
 
+/*
+* Goal: The Factory Pattern is used to create objects without specifying the exact class of the object that will be created. It defines an interface for creating an object but allows subclasses to alter the type of objects that will be created.
+Use Case: Ideal for situations where you want to create different instances of classes that share a common interface or base class.
+* */
 public class FactoryPattern {
 
     public interface Payment {
